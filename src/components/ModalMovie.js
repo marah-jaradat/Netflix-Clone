@@ -2,17 +2,18 @@ import React from "react";
 import { Button, Modal, Form } from "react-bootstrap/";
 import Card from "react-bootstrap/Card";
 
-import { useRef } from "react";
+// import { useRef } from "react";
 
 function ModalMovie(props) {
 
-  const comtRef = useRef();
-  function handleCaption(obj) {
-    obj.preventDefault();
-    const userCaption = comtRef.current.value;
-    const newData = { ...props.meme, userCaption };
-    props.updateCaption(newData, props.meme.id);
-  }
+  //   const comtRef = useRef();
+  //   function handleCaption(obj) {
+  //     obj.preventDefault();
+  //     const userCaption = comtRef.current.value;
+  //     const newData = { ...props.meme, userCaption };
+  //     props.updateCaption(newData, props.meme.id);
+  //   }
+
 
   async function handleAddFav(movie){
     const dataToBeSent={
@@ -34,39 +35,36 @@ function ModalMovie(props) {
       <Modal
         show={props.show}
         onHide={() => {
-          props.handleColse();
+          props.ModalMovieHandleColse();
         }}
       >
         <Modal.Header closeButton>
-          <Modal.Title>{props.closedMovie.title}</Modal.Title>
+          <Modal.Title>{props.chosedMovie.title}</Modal.Title>
         </Modal.Header>
         <Card.Img
           variant="top"
-          src={
-            "https://image.tmdb.org/t/p/w500" +
-            `${props.closedMovie.poster_path}`
-          }
+          src={`https://image.tmdb.org/t/p/w500/${props.chosedMovie.poster_path}`}
         />
-        <Modal.Body>
-          <img width="100%" src={props.meme.image} alt={props.meme.name} />
-          <p>{props.meme.topText}</p>
-          <p>{props.meme.caption}</p>
-        </Modal.Body>
 
         <Modal.Footer>
-          <Form.Group className="mb-3" controlId="formOfEmail">
-            <Form.Label>Comment:</Form.Label>
-            <Form.Control type="text" placeholder="Add Comment" />
-          </Form.Group>
-          <Button variant="primary" type="submit" onClick={handleCaption}>
-            Submit
-          </Button>
-          <Button variant="secondary" onClick={()=> setShow}>
-            Add to favorite
-          </Button>
-          <Button variant="primary" onClick={props.handleColse}>
-            Save
-          </Button>
+
+          <form>
+            <Form.Group className="mb-3" controlId="formOfEmail">
+              <Form.Label>Comment:</Form.Label>
+              <Form.Control type="text" placeholder="Add Comment" />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              {/* onClick={handleCaption} */}
+              Submit Comment
+            </Button>
+            <Button variant="secondary" onClick={props.handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={props.handleClose}>
+              Save
+            </Button>
+          </form>
+
         </Modal.Footer>
       </Modal>
     </>
