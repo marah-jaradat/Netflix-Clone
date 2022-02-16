@@ -1,10 +1,10 @@
-import Button from "ract-bootstrap/Button";
-import Card from "ract-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 import ModalMovie from "./ModalMovie";
 import { useState } from "react";
 
 export default function Movie(props) {
-  console.log(props.data);
+  // console.log(props.data);
 
   const [showMovie, setShow] = useState(false);
   const [chosedMovie, setChosedMovie] = useState();
@@ -17,15 +17,11 @@ export default function Movie(props) {
   }
   return (
     <>
-      <h1>movies List:</h1>
       <div>
         <Card style={{ width: "18rem" }}>
           <Card.Img
             variant="top"
-            src={
-              "https://image.tmdb.org/t/p/w500" +
-              `${props.closedMovie.poster_path}`
-            }
+            src={"https://image.tmdb.org/t/p/w500" + props.data.poster_path}
           />
 
           <Card.Body>
