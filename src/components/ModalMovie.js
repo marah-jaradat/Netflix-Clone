@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import { useRef } from "react";
 
 function ModalMovie(props) {
+
   const comtRef = useRef();
   function handleCaption(obj) {
     obj.preventDefault();
@@ -13,6 +14,21 @@ function ModalMovie(props) {
     props.updateCaption(newData, props.meme.id);
   }
 
+  async function handleAddFav(movie){
+    const dataToBeSent={
+      title:movie.title
+      // as in database
+    }
+    const url=`${process.env.REACT_APP_SERVER}/addFavMovie`;
+    const response =await fetch (url,{
+      method:'POST',
+      comment: movie.
+      body:JSON.stringify(dataToBeSent)
+    })
+    const data=await response.json()
+    console.log(response.status)
+    console.log(data)
+  }
   return (
     <>
       <Modal
@@ -45,8 +61,8 @@ function ModalMovie(props) {
           <Button variant="primary" type="submit" onClick={handleCaption}>
             Submit
           </Button>
-          <Button variant="secondary" onClick={props.handleColse}>
-            Close
+          <Button variant="secondary" onClick={()=> setShow}>
+            Add to favorite
           </Button>
           <Button variant="primary" onClick={props.handleColse}>
             Save
