@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import MovieList from "./MoviesList";
+import MoviesList from "./MovieList";
 
 function Home() {
   const [movie, setMovie] = useState();
@@ -13,7 +13,6 @@ function Home() {
       console.log("error", error);
     }
   };
-
   useEffect(() => {
     getMovies();
   }, []);
@@ -21,7 +20,7 @@ function Home() {
   return (
     <>
       <h1>Movies Library</h1>
-      {movie && <MovieList movies={movie} />}
+      {movie && <MoviesList movies={movie} />}
     </>
   );
 }

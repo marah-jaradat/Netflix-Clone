@@ -1,9 +1,19 @@
-import Button from "ract-bootstrap/Button";
-import Card from "ract-bootstrap/Card";
+import { Card, Button } from "react-bootstrap/";
+import { useEffect, useState } from "react";
 
 function FavList(props) {
-  async function handleDelete() {
-    const[]
+  const [favListData, setFavListData] = useState();
+
+  async function getDataFromDB() {
+    const response = await fetch(`${process.env.REACT_APP_SERVER}/addFavmovie`);
+    const data = await response.json();
+    setFavListData(data);
+  }
+  useEffect(() => {
+    getDataFromDB();
+  }, []);
+
+  async function handleDelete(id) {
     const response = await fetch(
       `${process.env.REACT_APP_SERVER}/deleteFavMovie/${id}`,
       {
@@ -11,7 +21,8 @@ function FavList(props) {
       }
     );
     if (response.status === 204) {
-      alert("hello delete");
+      getDataFromDB();
+      alert("Recipe Deleted Successfully");
     }
   }
   return (
@@ -22,7 +33,7 @@ function FavList(props) {
           return (
             <>
               <Card key={movie.id}>
-                <card img src={movie.image} />
+                <Card.img src={movie.image} />
                 <Button
                   onClick={() => {
                     handleDelete(movie.id);

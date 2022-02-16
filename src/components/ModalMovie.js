@@ -1,74 +1,106 @@
 import React from "react";
-import { Button, Modal, Form } from "react-bootstrap/";
-import Card from "react-bootstrap/Card";
-
+import { Card, Button, Modal, Form } from "react-bootstrap/";
 import { useRef } from "react";
 
 function ModalMovie(props) {
-
   const comtRef = useRef();
-  function handleCaption(obj) {
-    obj.preventDefault();
-    const userCaption = comtRef.current.value;
-    const newData = { ...props.meme, userCaption };
-    props.updateCaption(newData, props.meme.id);
+  function handleCaption(e) {
+    e.preventDefault();
+    const comment = comtRef.current.value;
+    const newMovie = { ...props.chosedMovie, comment };
+    props.updateCaption(newMovie, props.chosedMovie.id);
   }
 
-  async function handleAddFav(movie){
-    const dataToBeSent={
-      title:movie.title
-      // as in database
-    }
-    const url=`${process.env.REACT_APP_SERVER}/addFavMovie`;
-    const response =await fetch (url,{
-      method:'POST',
-      comment: movie.
-      body:JSON.stringify(dataToBeSent)
-    })
-    const data=await response.json()
-    console.log(response.status)
-    console.log(data)
+  async function handleAddFav(movie) {
+    // let values = [movie.title,movie.release_date, movie.poster_path, movie.overview,movie.comment];
+
+    const dataToBeSent = {
+      title: movie.title,
+      release_date: movie.release_date,
+      poster_path: movie.poster_path,
+    };
+    const url = `${process.env.REACT_APP_SERVER}/addFavMovie`;
+    const response = await fetch(url, {
+      method: "POST",
+      // comment: movie.
+      body: JSON.stringify(dataToBeSent),
+    });
+    const data = await response.json();
+    console.log(response.status);
+    console.log(data);
   }
+
+  // async function handleAddFav(movie) {
+  //   const dataToBeSent = {
+  //     title: movie.title,
+  //     // as in database
+  //   };
+  //   const url = `${process.env.REACT_APP_SERVER}/addFavMovie`;
+  //   const response = await fetch(url, {
+  //     method: "POST",
+  //     body: JSON.stringify(dataToBeSent),
+  //   });
+  //   const data = await response.json();
+  //   console.log(response.status);
+  //   console.log(data);
+  // }
   return (
     <>
-      <Modal
-        show={props.show}
-        onHide={() => {
-          props.handleColse();
-        }}
-      >
+      <Modal show={props.show} onHide={props.ModalMovieHandleColse}>
         <Modal.Header closeButton>
-          <Modal.Title>{props.closedMovie.title}</Modal.Title>
+          <Modal.Title>{props.chosedMovie.title}</Modal.Title>
         </Modal.Header>
-        <Card.Img
-          variant="top"
-          src={
-            "https://image.tmdb.org/t/p/w500" +
-            `${props.closedMovie.poster_path}`
-          }
-        />
+
         <Modal.Body>
-          <img width="100%" src={props.meme.image} alt={props.meme.name} />
-          <p>{props.meme.topText}</p>
-          <p>{props.meme.caption}</p>
+          <img
+            width="100%"
+            src={`https://image.tmdb.org/t/p/w500/${props.chosedMovie.poster_path}`}
+            alt={props.chosedMovie.title}
+          />
+          <p>{props.chosedMovie.instructions.substring(0, 50)} </p> ...
+          <p>
+            User Comment:{" "}
+            {props.chosedMovie.comment
+              ? props.chosedMovie.comment
+              : "No Comment is added"}
+          </p>
+          <Form>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Label>Comment</Form.Label>
+              <Form.Control
+                ref={comtRef}
+                type="text"
+                placeholder="Enter your comment"
+              />
+
+              <Form.Text className="text-muted"></Form.Text>
+            </Form.Group>
+            <Button variant="primary" type="submit" onClick={handleCaption}>
+              Submit
+            </Button>
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={(e) => {
+                handleAddFav(e, props.chosedMovie);
+              }}
+            >
+              Add to Favorites
+            </Button>
+          </Form>
         </Modal.Body>
 
         <Modal.Footer>
-          <Form.Group className="mb-3" controlId="formOfEmail">
-            <Form.Label>Comment:</Form.Label>
-            <Form.Control type="text" placeholder="Add Comment" />
-          </Form.Group>
-          <Button variant="primary" type="submit" onClick={handleCaption}>
-            Submit
-          </Button>
-          <Button variant="secondary" onClick={()=> setShow}>
-            Add to favorite
-          </Button>
-          <Button variant="primary" onClick={props.handleColse}>
-            Save
+          <Button variant="secondary" onClick={props.handleClose}>
+            Close
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* <Card.Img
+          variant="top"
+          src={`https://image.tmdb.org/t/p/w500/${props.chosedMovie.poster_path}`}
+        /> */}
     </>
   );
 }
