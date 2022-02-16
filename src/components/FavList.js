@@ -25,6 +25,7 @@ function FavList(props) {
       alert("Recipe Deleted Successfully");
     }
   }
+
   return (
     <>
       <h1>This is my favorite list of Movies</h1>
@@ -33,14 +34,23 @@ function FavList(props) {
           return (
             <>
               <Card key={movie.id}>
-                <Card.img src={movie.image} />
-                <Button
-                  onClick={() => {
-                    handleDelete(movie.id);
-                  }}
-                >
-                  Delete
-                </Button>
+                <Card style={{ width: "18rem" }} key={movie.id}>
+                  <Card.Img variant="top" src={movie.image} />
+                  <Card.Body>
+                    <Card.Title>{movie.title}</Card.Title>
+                    <Card.Text>
+                      {movie.comment ? movie.comment : "No Comment is Added"}
+                    </Card.Text>
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        handleDelete(movie.id);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </Card.Body>
+                </Card>
               </Card>
             </>
           );
@@ -48,5 +58,4 @@ function FavList(props) {
     </>
   );
 }
-
 export default FavList;

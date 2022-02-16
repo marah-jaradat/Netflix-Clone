@@ -19,14 +19,11 @@ export default function MoviesList(props) {
       <h1>Movies List:</h1>
       {props.movies.map((object) => {
         return (
-          <>
+          <Card key={object.id}>
             <Card style={{ width: "18rem" }} key={object.id}>
               <Card.Img variant="top" src={object.image} />
               <Card.Body>
                 <Card.Title>{object.title}</Card.Title>
-                <Card.Text>
-                  It will be ready in {object.readyInMinutes} minutes
-                </Card.Text>
                 <Card.Text>
                   {object.comment ? object.comment : "No Comment is Added"}
                 </Card.Text>
@@ -48,7 +45,7 @@ export default function MoviesList(props) {
                 updateMovies={props.updateMovies}
               />
             )}
-          </>
+          </Card>
         );
       })}
     </>
